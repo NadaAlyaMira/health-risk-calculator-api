@@ -10,6 +10,8 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
+app.options('*', cors()); // Handle preflight OPTIONS requests
+
 app.use(express.json());
 
 app.post('/api/calculateRisk', (req, res) => {
