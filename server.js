@@ -1,18 +1,21 @@
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors');  // Import the cors package
 const app = express();
 const port = 3000;
 
-// Use CORS middleware to allow requests from your frontend
-app.use(cors({
-    origin: 'https://witty-beach-058367600.6.azurestaticapps.net',  // Allow the specific domain
+// CORS configuration
+const corsOptions = {
+    origin: 'https://witty-beach-058367600.6.azurestaticapps.net',  // Allow this specific frontend domain
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200  // Some legacy browsers (IE11, various Smart TVs) choke on 204
+};
 
-app.use(express.json()); // Allow the server to parse JSON data in requests
+app.use(cors(corsOptions));  // Apply CORS with the specified options
+app.use(express.json());  // Middleware to parse JSON request bodies
 
-// Risk calculation logic
+app.options('*', cors());  // Handle preflight OPTIONS requests (important for CORS)
+
 app.post('/api/calculateRisk', (req, res) => {
     const { age, bmi, systolic, diastolic, familyHistory } = req.body;
     
@@ -47,11 +50,9 @@ app.post('/api/calculateRisk', (req, res) => {
     if (riskScore > 50) riskCategory = "High Risk";
     if (riskScore > 75) riskCategory = "Uninsurable";
 
-    // Respond with the calculated risk score and risk category
-    res.json({ riskScore, riskCategory });
+    res.json({ riskScore, riskCategory });  // Send the calculated risk score and category
 });
 
-// Start the server
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
