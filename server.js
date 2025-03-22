@@ -42,7 +42,5 @@ app.post('/api/calculateRisk', (req, res) => {
     res.json({ riskScore, riskCategory });
 });
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+
  
