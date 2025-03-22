@@ -1,13 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+const fetch = require('node-fetch');  // Use node-fetch for server-side HTTP requests
 const app = express();
 const port = 3000;
 
 app.use(cors());
 app.use(express.json());
 
-app.post('/api/calculateRisk', (req, res) => {
+app.post('/api/calculateRisk', async (req, res) => {
     const { age, bmi, systolic, diastolic, familyHistory } = req.body;
+    
     let riskScore = 0;
 
     // Age Risk
@@ -42,5 +44,6 @@ app.post('/api/calculateRisk', (req, res) => {
     res.json({ riskScore, riskCategory });
 });
 
-
- 
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+});
