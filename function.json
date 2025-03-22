@@ -1,0 +1,17 @@
+{
+  "bindings": [
+    {
+      "authLevel": "function",  // Use "function" or "anonymous"
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": ["post"],
+      "route": "api/calculateRisk"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    }
+  ]
+}
