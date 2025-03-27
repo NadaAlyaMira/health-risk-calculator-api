@@ -59,7 +59,8 @@ const port = 8080;
 const corsOptions = {
     origin: 'https://witty-beach-058367600.6.azurestaticapps.net',  // Set this to your frontend URL
     methods: "GET,POST,OPTIONS",
-    allowedHeaders: "Content-Type"
+    allowedHeaders: "Content-Type",
+    credentials: true 
 };
 
 app.use(cors(corsOptions));
