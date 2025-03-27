@@ -50,23 +50,27 @@ app.post('/api/calculateRisk', (req, res) => {
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`); */
+const express = require('express');
+const cors = require('cors');  
+const app = express();
+const port = 8080;
 
-module.exports = async function (context, req) {
-    context.res = {
-        headers: {
-            "Access-Control-Allow-Origin": "*", // Allow all origins (update for security)
-            "Access-Control-Allow-Methods": "POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type"
-        }
-    };
+// ✅ Allow requests only from your frontend
+const corsOptions = {
+    origin: 'https://witty-beach-058367600.6.azurestaticapps.net',  // Set this to your frontend URL
+    methods: "GET,POST,OPTIONS",
+    allowedHeaders: "Content-Type"
+};
 
-    // Handle preflight (OPTIONS) requests
-    if (req.method === "OPTIONS") {
-        context.res.status = 204; // No content response
-        return;
-    }
+app.use(cors(corsOptions));
+app.use(express.json());
 
+// ✅ Handle preflight requests
+app.options('*', cors(corsOptions));
+
+app.post('/api/calculateRisk', (req, res) => {
     const { age, bmi, systolic, diastolic, familyHistory } = req.body;
+    
     let riskScore = 0;
 
     // Age Risk
@@ -98,16 +102,12 @@ module.exports = async function (context, req) {
     if (riskScore > 50) riskCategory = "High Risk";
     if (riskScore > 75) riskCategory = "Uninsurable";
 
-    context.res = {
-        status: 200,
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json"
-        },
-        body: { riskScore, riskCategory }
-    };
-};
+    res.json({ riskScore, riskCategory });
+});
 
+// ✅ Start server
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
 });
 
 
