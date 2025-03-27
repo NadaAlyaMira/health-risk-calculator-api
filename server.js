@@ -12,9 +12,10 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));  // Apply CORS with the specified options
+app.options('*', cors());  // Handle preflight OPTIONS requests (important for CORS)
+
 app.use(express.json());  // Middleware to parse JSON request bodies
 
-app.options('*', cors());  // Handle preflight OPTIONS requests (important for CORS)
 
 app.post('/api/calculateRisk', (req, res) => {
     const { age, bmi, systolic, diastolic, familyHistory } = req.body;
