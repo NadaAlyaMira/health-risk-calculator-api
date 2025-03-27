@@ -5,14 +5,14 @@ const port = 8080;
 
 // CORS configuration
 const corsOptions = {
-    origin: 'https://witty-beach-058367600.6.azurestaticapps.net',  // Allow this specific frontend domain
+    origin: '*',  // Allow this specific frontend domain
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     optionsSuccessStatus: 200  // Some legacy browsers (IE11, various Smart TVs) choke on 204
 };
 
 app.use(cors(corsOptions));  // Apply CORS with the specified options
-app.options('*', cors());  // Handle preflight OPTIONS requests (important for CORS)
+//app.options('*', cors());  // Handle preflight OPTIONS requests (important for CORS)
 
 app.use(express.json());  // Middleware to parse JSON request bodies
 
