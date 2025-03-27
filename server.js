@@ -3,18 +3,12 @@ const cors = require('cors');  // Import the cors package
 const app = express();
 const port = 8080;
 
-// CORS configuration
-const corsOptions = {
-    origin: '*',  // Allow this specific frontend domain
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    optionsSuccessStatus: 200  // Some legacy browsers (IE11, various Smart TVs) choke on 204
-};
-
-app.use(cors(corsOptions));  // Apply CORS with the specified options
-//app.options('*', cors());  // Handle preflight OPTIONS requests (important for CORS)
-
-app.use(express.json());  // Middleware to parse JSON request bodies
+var corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+app.use(cors(corsOptions));
+app.use(express.json());
 
 
 app.post('/api/calculateRisk', (req, res) => {
